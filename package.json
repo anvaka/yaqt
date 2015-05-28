@@ -4,7 +4,7 @@
   "description": "Yet another quad tree",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "tap test/*.js"
   },
   "keywords": [
     "quadtree",
