@@ -7,19 +7,35 @@ module.exports = createTree;
 function createTree(options) {
   options = options || {};
 
+  var queryBounds = new Bounds();
   var root;
+  var originalArray;
   var api = {
     init: init,
-    bounds: getBounds
+    bounds: getBounds,
+    pointsAround: getPointsAround
   };
 
   return api;
+
+  function getPointsAround(x, y, half) {
+    var indices = [];
+    queryBounds.x = x;
+    queryBounds.y = y;
+    queryBounds.half = half;
+    root.query(queryBounds, indices, originalArray);
+    return indices;
+  }
 
   function init(points) {
     if (!points) throw new Error('Points array is required for quadtree to work');
     if (typeof points.length !== 'number') throw new Error('Points should be array-like object');
     if (points.length % 2 !== 0) throw new Error('Points array should consist of series of x,y coordinates and be multiple of 2');
+    originalArray = points;
     root = createRootNode(points);
+    for (var i = 0; i < points.length; i += 2) {
+      root.insert(i, originalArray);
+    }
   }
 
   function getBounds() {
