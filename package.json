@@ -4,7 +4,8 @@
   "description": "Yet another quad tree",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js"
+    "test": "tap test/*.js",
+    "perf": "node ./perf/index.js"
   },
   "keywords": [
     "quadtree",

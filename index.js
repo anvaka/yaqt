@@ -1,6 +1,7 @@
 var Bounds = require('./lib/bounds.js');
 var TreeNode = require('./lib/treeNode.js');
 var EmptyRegion = new Bounds();
+var rectangularCheck = require('./lib/rectangularCheck.js');
 
 module.exports = createTree;
 
@@ -18,12 +19,15 @@ function createTree(options) {
 
   return api;
 
-  function getPointsAround(x, y, half) {
+  function getPointsAround(x, y, half, intersectCheck) {
+    if (typeof intersectCheck !== 'function') {
+      intersectCheck = rectangularCheck;
+    }
     var indices = [];
     queryBounds.x = x;
     queryBounds.y = y;
     queryBounds.half = half;
-    root.query(queryBounds, indices, originalArray);
+    root.query(queryBounds, indices, originalArray, intersectCheck);
     return indices;
   }
 
