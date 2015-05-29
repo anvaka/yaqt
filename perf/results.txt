@@ -1,0 +1,11 @@
+{ http_parser: '2.5.0',
+  node: '2.0.1',
+  v8: '4.2.77.20',
+  uv: '1.5.0',
+  zlib: '1.2.8',
+  ares: '1.10.0-DEV',
+  modules: '44',
+  openssl: '1.0.2a' }
+points #10000
+Init speed x 196 ops/sec ±1.30% (80 runs sampled)
+intersect query x 82.37 ops/sec ±3.60% (70 runs sampled)
