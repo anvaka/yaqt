@@ -14,10 +14,15 @@ function createTree(options) {
   var api = {
     init: init,
     bounds: getBounds,
-    pointsAround: getPointsAround
+    pointsAround: getPointsAround,
+    visit: visit
   };
 
   return api;
+
+  function visit(cb) {
+    return root.visit(cb);
+  }
 
   function getPointsAround(x, y, half, intersectCheck) {
     if (typeof intersectCheck !== 'function') {
