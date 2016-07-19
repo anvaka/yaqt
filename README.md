@@ -1,6 +1,6 @@
 # yaqt
 
-Yet another quad tree. API is not finished. Just a test. You can see  [yaqt](https://github.com/anvaka/yaot)
+Yet another quad tree. API is not finished. Just a test. You can see  [yaot](https://github.com/anvaka/yaot)
 for 3D oct-tree, which is used and better documented.
 
 # usage
