@@ -2,17 +2,39 @@ var Bounds = require('./lib/bounds.js');
 var TreeNode = require('./lib/treeNode.js');
 var EmptyRegion = new Bounds();
 var rectangularCheck = require('./lib/rectangularCheck.js');
+var asyncFor = require('rafor');
 
 module.exports = createTree;
 
-function createTree(options) {
-  options = options || {};
-
+function createTree() {
   var queryBounds = new Bounds();
   var root;
   var originalArray;
   var api = {
+
+    /**
+     * Synchronous version of `initAsync()`. Should only be used for small
+     * trees (less than 50-70k of points).
+     *
+     * @param {number[]} points array of points for which we are building the
+     * tree. Flat sequence of (x, y) coordinates. Array length should be
+     * multiple of 2.
+     */
     init: init,
+
+    /**
+     * Initializes tree asynchronously. Very useful when you have millions
+     * of points and do not want to block rendering thread for too long.
+     *
+     * @param {number[]} points array of points for which we are building the
+     * tree. Flat sequence of (x, y) coordinates. Array length should be
+     * multiple of 2.
+     *
+     * @param {Function=} doneCallback called when tree is initialized. The
+     * callback will be called with single argument which represent current
+     * tree.
+     */
+    initAsync: initAsync,
     bounds: getBounds,
     pointsAround: getPointsAround,
     visit: visit
@@ -37,15 +59,43 @@ function createTree(options) {
   }
 
   function init(points) {
-    if (!points) throw new Error('Points array is required for quadtree to work');
-    if (typeof points.length !== 'number') throw new Error('Points should be array-like object');
-    if (points.length % 2 !== 0) throw new Error('Points array should consist of series of x,y coordinates and be multiple of 2');
+    verifyPointsInvariant(points);
+
     originalArray = points;
     root = createRootNode(points);
     for (var i = 0; i < points.length; i += 2) {
       root.insert(i, originalArray);
     }
   }
+
+  function initAsync(points, options) {
+    verifyPointsInvariant(points);
+
+    var doneCallback = options && options.done;
+    var progress = options && options.progress;
+
+    root = createRootNode(points);
+    originalArray = points;
+    asyncFor(points, insertToRoot, doneInternal, { step: 2 });
+
+    function insertToRoot(element, i) {
+      root.insert(i, points, 0);
+      if (progress) progress(i, points.length);
+    }
+
+    function doneInternal() {
+      if (typeof doneCallback === 'function') {
+        doneCallback(api);
+      }
+    }
+  }
+
+  function verifyPointsInvariant(points) {
+    if (!points) throw new Error('Points array is required for quadtree to work');
+    if (typeof points.length !== 'number') throw new Error('Points should be array-like object');
+    if (points.length % 2 !== 0) throw new Error('Points array should consist of series of x,y coordinates and be multiple of 2');
+  }
+
 
   function getBounds() {
     if (!root) return EmptyRegion;

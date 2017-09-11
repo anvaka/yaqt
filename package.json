@@ -23,5 +23,8 @@
     "benchmark": "^1.0.0",
     "ngraph.random": "0.0.1",
     "tap": "^1.2.0"
+  },
+  "dependencies": {
+    "rafor": "^1.0.2"
   }
 }
