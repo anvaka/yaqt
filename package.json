@@ -1,6 +1,6 @@
 {
   "name": "yaqt",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Yet another quad tree",
   "main": "index.js",
   "scripts": {
