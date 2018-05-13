@@ -27,8 +27,8 @@ tree.pointsAround(
   5 // y center of the square,
   6 // half width of the square
 );
-// this will return indices 0 and 2 of the origina poitns array, since both 0, 0
-// and 10, 0 ar lying within requested sqare
+// this will return indices 0 and 2 of the original points array, since both 0, 0
+// and 10, 0 ar lying within requested square
 ```
 
 
