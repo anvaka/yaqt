@@ -1,4 +1,4 @@
-# yaqt
+# yaqt [![Build Status](https://travis-ci.org/anvaka/yaqt.svg?branch=master)](https://travis-ci.org/anvaka/yaqt)
 
 Yet another quad tree. API is not finished. Just a test. You can see  [yaot](https://github.com/anvaka/yaot)
 for 3D oct-tree, which is used and better documented.
